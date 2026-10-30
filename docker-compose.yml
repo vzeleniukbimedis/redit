@@ -1,0 +1,24 @@
+# Production compose (Coolify). Local dev additions live in docker-compose.override.yml.
+# Env vars are injected by Coolify (or from ./.env when running locally).
+services:
+  monitor:
+    build: ./monitor
+    image: reddit-monitor:local
+    restart: unless-stopped
+    environment:
+      MONITOR_DB: /data/leads.db
+      MONITOR_CONFIG: /app/config.json
+      REDDIT_CLIENT_ID: "${REDDIT_CLIENT_ID}"
+      REDDIT_CLIENT_SECRET: "${REDDIT_CLIENT_SECRET}"
+      REDDIT_USERNAME: "${REDDIT_USERNAME}"
+      OPENROUTER_API_KEY: "${OPENROUTER_API_KEY}"
+      OPENROUTER_MODEL: "${OPENROUTER_MODEL:-deepseek/deepseek-v4.1-flash}"
+      TELEGRAM_BOT_TOKEN: "${TELEGRAM_BOT_TOKEN}"
+      TELEGRAM_CHAT_ID: "${TELEGRAM_CHAT_ID}"
+      TELEGRAM_ALERT_MENTION: "${TELEGRAM_ALERT_MENTION:-}"
+      ALERTS_MUTED: "${ALERTS_MUTED:-}"
+    volumes:
+      - leads-data:/data
+
+volumes:
+  leads-data:

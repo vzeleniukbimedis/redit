@@ -1,0 +1,7 @@
+# Local development only (docker compose merges this automatically; Coolify ignores it).
+services:
+  monitor:
+    container_name: reddit-monitor
+    volumes:
+      - ./monitor/data:/data
+      - ./monitor/config.json:/app/config.json:ro
